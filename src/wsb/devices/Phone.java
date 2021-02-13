@@ -2,22 +2,51 @@ package wsb.devices;
 
 import wsb.App;
 import wsb.creatures.Human;
+import wsb.devices.enums.OperatingSystem;
 
 import java.util.*;
 
 public class Phone extends Device {
     final Double screenSize;
     public List<App> applications;
+    private final OperatingSystem operatingSystem;
 
-    public Phone(String producer, String model, Double screenSize) {
+    public static Phone createIPhone(String model, Double screenSize) {
+        return new Phone("Apple", model, screenSize, OperatingSystem.IOS);
+    }
+
+    public static Phone createAndroidPhone(String producer, String model, Double screenSize) {
+        return new Phone(producer, model, screenSize, OperatingSystem.ANDROID);
+    }
+
+    public static Phone createTrashPhone(String producer, String model, Double screenSize) {
+        return new Phone(producer, model, screenSize, OperatingSystem.WINDOWS_MOBILE);
+    }
+
+    private Phone(String producer, String model, Double screenSize, OperatingSystem operatingSystem) {
         super(producer, model);
         this.screenSize = screenSize;
+        this.operatingSystem = operatingSystem;
         applications = new LinkedList<>();
     }
 
     @Override
     public void turnOn() {
-        System.out.println("phone is turned on");
+        String osDependantMsg;
+        switch (operatingSystem) {
+            case IOS:
+                osDependantMsg = "How is your wallet now?";
+                break;
+            case ANDROID:
+                osDependantMsg = "Xiaomi is better";
+                break;
+            case WINDOWS_MOBILE:
+                osDependantMsg = "OMG! Why you do this????";
+                break;
+            default:
+                throw new RuntimeException("Is it even a phone??????");
+        }
+        System.out.println(osDependantMsg);
     }
 
 

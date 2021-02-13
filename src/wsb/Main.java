@@ -4,7 +4,6 @@ import wsb.creatures.Animal;
 import wsb.creatures.Gender;
 import wsb.creatures.Human;
 import wsb.creatures.Pet;
-import wsb.database.Connector;
 import wsb.devices.Car;
 import wsb.devices.DieselCar;
 import wsb.devices.ElectricCar;
@@ -20,7 +19,7 @@ public class Main {
         Pet dog = new Pet("dog", Gender.MALE);
         dog.name = "Akita";
 
-        Phone iphone = new Phone("Apple", "6s", 4.7);
+        Phone iphone = Phone.createIPhone( "6s", 4.7);
 
         Human me = new Human(3, Gender.MALE);
         me.firstName = "Kacper";
