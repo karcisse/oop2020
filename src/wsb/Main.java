@@ -1,15 +1,19 @@
 package wsb;
 
 import wsb.creatures.Animal;
-import wsb.creatures.FarmAnimal;
 import wsb.creatures.Human;
 import wsb.creatures.Pet;
 import wsb.database.Connector;
-import wsb.database.JDBCConnector;
-import wsb.devices.*;
+import wsb.devices.Car;
+import wsb.devices.DieselCar;
+import wsb.devices.ElectricCar;
+import wsb.devices.Phone;
 
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Main {
 
