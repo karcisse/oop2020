@@ -16,7 +16,7 @@ public class Connector {
         Properties props = new Properties();
         props.setProperty("user", Configuration.USER);
         props.setProperty("password", Configuration.PASS);
-        CONNECTION = DriverManager.getConnection(DB_URL, props);
+//        CONNECTION = DriverManager.getConnection(DB_URL, props);
         System.out.println("connected");
     }
 
@@ -25,6 +25,6 @@ public class Connector {
     }
 
     public static void executeSQL(String sql) throws SQLException {
-        CONNECTION.createStatement().execute(sql);
+//        CONNECTION.createStatement().execute(sql);
     }
 }

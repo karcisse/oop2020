@@ -1,6 +1,7 @@
 package wsb;
 
 import wsb.creatures.Animal;
+import wsb.creatures.Gender;
 import wsb.creatures.Human;
 import wsb.creatures.Pet;
 import wsb.database.Connector;
@@ -9,9 +10,6 @@ import wsb.devices.DieselCar;
 import wsb.devices.ElectricCar;
 import wsb.devices.Phone;
 
-import java.sql.ResultSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,14 +17,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        Connector.connect();
-
-        Pet dog = new Pet("dog");
+        Pet dog = new Pet("dog", Gender.MALE);
         dog.name = "Akita";
 
         Phone iphone = new Phone("Apple", "6s", 4.7);
 
-        Human me = new Human(3);
+        Human me = new Human(3, Gender.MALE);
         me.firstName = "Kacper";
         me.lastName = "Warda";
         me.pet = dog;
@@ -43,7 +39,7 @@ public class Main {
         dirtyOne.turnOn();
 
 
-        Human myWife = new Human(4);
+        Human myWife = new Human(4, Gender.FEMALE);
         myWife.firstName = "Karolina";
         myWife.lastName = "Warda";
         myWife.setCar(new ElectricCar("Tesla", "S", 2019), 0);
@@ -52,7 +48,7 @@ public class Main {
         System.out.println(me.getCar(0));
         System.out.println(me);
 
-        Human brotherInLaw = new Human(2);
+        Human brotherInLaw = new Human(2, Gender.MALE);
         brotherInLaw.firstName = "Mateusz";
         brotherInLaw.lastName = "Skiba";
 
@@ -76,7 +72,7 @@ public class Main {
         humans.add(myWife);
         humans.add(me);
         humans.add(brotherInLaw);
-        humans.add(new Animal("dog"));
+        humans.add(new Animal("dog", Gender.MALE));
 
 
         System.out.println(me.getCar(0).value);
@@ -93,18 +89,6 @@ public class Main {
         System.out.println(me.mobile.isInstalled(messenger));
         System.out.println(me.mobile.isInstalled("facebook"));
         System.out.println(me.mobile.isInstalled("messenger"));
-
-
-        ResultSet rs = Connector.getStatement().executeQuery("SELECT * FROM animal");
-        List<Animal> animals = new LinkedList<>();
-
-        while (rs.next()) {
-            Animal animal = new Animal(rs.getString("species"), rs.getDouble("weight"));
-            animal.name = rs.getString("name");
-            animals.add(animal);
-        }
-
-        System.out.println(animals);
 
     }
 }

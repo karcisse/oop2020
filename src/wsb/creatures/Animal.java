@@ -9,6 +9,7 @@ public class Animal implements Feedable, Comparable<Animal> {
     final String species;
     private Double weight;
     public String name;
+    private final Gender gender;
     File pic;
 
     private static Double NEW_DOG_WEIGHT = 4.0;
@@ -17,8 +18,9 @@ public class Animal implements Feedable, Comparable<Animal> {
 
     private static Double DEFAULT_FEED_WEIGHT = 1.0;
 
-    public Animal(String species) {
+    public Animal(String species, Gender gender) {
         System.out.println("we created new Animal");
+        this.gender = gender;
         this.species = species;
 
         switch (species) {
@@ -42,7 +44,8 @@ public class Animal implements Feedable, Comparable<Animal> {
         }
     }
 
-    public Animal(String species, Double weight) {
+    public Animal(String species, Double weight, Gender gender) {
+        this.gender = gender;
         this.weight = weight;
         this.species = species;
         try {
@@ -52,6 +55,9 @@ public class Animal implements Feedable, Comparable<Animal> {
         }
     }
 
+    public Gender getGender() {
+        return gender;
+    }
 
     public void feed() {
         feed(DEFAULT_FEED_WEIGHT);
