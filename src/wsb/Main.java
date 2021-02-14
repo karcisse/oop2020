@@ -5,6 +5,7 @@ import wsb.devices.Device;
 import wsb.devices.DieselCar;
 import wsb.devices.ElectricCar;
 
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,5 +33,25 @@ public class Main {
         carsMap.values().stream().sorted(
                 Comparator.comparing(Device::getModel))
                 .forEach(System.out::println);
+
+        Map<String, Double> countryAreaMap = Stream.of(
+                new AbstractMap.SimpleEntry<>("Sweden", 75d),
+                new AbstractMap.SimpleEntry<>("Germany", 100d),
+                new AbstractMap.SimpleEntry<>("Poland", 10d),
+                new AbstractMap.SimpleEntry<>("Austria", 1d),
+                new AbstractMap.SimpleEntry<>("Norway", 40d))
+                .collect(Collectors.toMap(
+                        AbstractMap.SimpleEntry::getKey,
+                        AbstractMap.SimpleEntry::getValue));
+
+        System.out.println("Largest country is " + countryAreaMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(""));
+
+        System.out.println("Smallest country is " + countryAreaMap.entrySet().stream()
+                .min(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(""));
     }
 }
