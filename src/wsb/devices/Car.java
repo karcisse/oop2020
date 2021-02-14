@@ -1,7 +1,11 @@
 package wsb.devices;
 
+import com.sun.deploy.util.StringUtils;
 import wsb.Soldable;
 import wsb.creatures.Human;
+
+import java.security.SecureRandom;
+import java.util.Random;
 
 public abstract class Car extends Device implements Soldable, Comparable<Car> {
     public final Integer yearOfProduction;
@@ -12,6 +16,16 @@ public abstract class Car extends Device implements Soldable, Comparable<Car> {
         super(producer, model);
         this.yearOfProduction = yearOfProduction;
         this.sizeOfAnEngine = sizeOfAnEngine;
+
+    }
+
+    public String generateSerialNumber() {
+        return producer.charAt(0)
+                + model.charAt(0)
+                + "-"
+                + yearOfProduction
+                + "-"
+                + String.format("%05d", new SecureRandom().nextInt(100000));
 
     }
 
