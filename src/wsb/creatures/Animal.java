@@ -6,22 +6,28 @@ import java.io.File;
 import java.sql.SQLException;
 
 public class Animal implements Feedable, Comparable<Animal> {
-    final String species;
-    private Double weight;
-    public String name;
-    private final Gender gender;
-    File pic;
 
     private static Double NEW_DOG_WEIGHT = 4.0;
     private static Double NEW_LION_WEIGHT = 39.2;
     private static Double NEW_OTHER_ANIMAL_WEIGHT = 5.3;
-
     private static Double DEFAULT_FEED_WEIGHT = 1.0;
 
-    public Animal(String species, Gender gender) {
+    final String species;
+    private Double weight;
+    public String name;
+    private final Gender gender;
+    private final FoodType foodType;
+    File pic;
+
+    protected enum FoodType {
+        MEAT, CROPS, ALL
+    }
+
+    public Animal(String species, Gender gender, FoodType foodType) {
         System.out.println("we created new Animal");
         this.gender = gender;
         this.species = species;
+        this.foodType = foodType;
 
         switch (species) {
             case "dog": {
@@ -44,17 +50,6 @@ public class Animal implements Feedable, Comparable<Animal> {
         }
     }
 
-    public Animal(String species, Double weight, Gender gender) {
-        this.gender = gender;
-        this.weight = weight;
-        this.species = species;
-        try {
-            this.save();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -67,7 +62,7 @@ public class Animal implements Feedable, Comparable<Animal> {
         if (weight == 0) {
             System.out.println("too late, " + name + " is dead");
         } else {
-            weight += foodWeight;
+            eat(foodWeight);
             System.out.println(name + " says thx for food");
         }
     }
@@ -109,5 +104,26 @@ public class Animal implements Feedable, Comparable<Animal> {
         String sql = "insert into animal values ('" + this.species + "','" + this.name + "'," + this.weight + ");";
         System.out.println(sql);
         Connector.executeSQL(sql);
+    }
+
+    private void eat(Double foodWeight) {
+        switch (foodType) {
+            case MEAT:
+                digest(foodWeight, .7);
+                break;
+            case CROPS:
+                digest(foodWeight, .3d);
+                break;
+            case ALL:
+                digest(foodWeight, .5d);
+                break;
+            default:
+                digest(-foodWeight, .5d); // Garbage
+                break;
+        }
+    }
+
+    private void digest(Double foodWeight, Double multiplier) {
+        weight += foodWeight * multiplier;
     }
 }
