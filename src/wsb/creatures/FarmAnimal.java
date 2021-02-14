@@ -1,5 +1,7 @@
 package wsb.creatures;
 
+import wsb.creatures.enums.FoodType;
+
 public class FarmAnimal extends Animal implements Edible{
 
     public FarmAnimal(String species) {

@@ -1,5 +1,6 @@
 package wsb.creatures;
 
+import wsb.creatures.enums.FoodType;
 import wsb.database.Connector;
 
 import java.io.File;
@@ -18,10 +19,6 @@ public class Animal implements Feedable, Comparable<Animal> {
     private final Gender gender;
     private final FoodType foodType;
     File pic;
-
-    protected enum FoodType {
-        MEAT, CROPS, ALL
-    }
 
     public Animal(String species, Gender gender, FoodType foodType) {
         System.out.println("we created new Animal");
@@ -54,15 +51,15 @@ public class Animal implements Feedable, Comparable<Animal> {
         return gender;
     }
 
-    public void feed() {
-        feed(DEFAULT_FEED_WEIGHT);
-    }
-
-    public void feed(Double foodWeight) {
+    public void feed(Double foodWeight, FoodType foodType) {
         if (weight == 0) {
             System.out.println("too late, " + name + " is dead");
+            return;
+        }
+        if (!this.foodType.equals(foodType)){
+            System.out.println("Bad food, pfff");
         } else {
-            eat(foodWeight);
+            digest(foodWeight);
             System.out.println(name + " says thx for food");
         }
     }
@@ -106,24 +103,7 @@ public class Animal implements Feedable, Comparable<Animal> {
         Connector.executeSQL(sql);
     }
 
-    private void eat(Double foodWeight) {
-        switch (foodType) {
-            case MEAT:
-                digest(foodWeight, .7);
-                break;
-            case CROPS:
-                digest(foodWeight, .3d);
-                break;
-            case ALL:
-                digest(foodWeight, .5d);
-                break;
-            default:
-                digest(-foodWeight, .5d); // Garbage
-                break;
-        }
-    }
-
-    private void digest(Double foodWeight, Double multiplier) {
-        weight += foodWeight * multiplier;
+    private void digest(Double foodWeight) {
+        weight += foodWeight * foodType.getFoodToBodyRatio();
     }
 }

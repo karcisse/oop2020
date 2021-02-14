@@ -1,5 +1,6 @@
 package wsb.creatures;
 
+import wsb.creatures.enums.FoodType;
 import wsb.devices.Car;
 import wsb.devices.Phone;
 
@@ -50,7 +51,7 @@ public class Human extends Animal {
 
     public void feed() {
         System.out.println("I'm a human I will use fork and knife");
-        super.feed(DEFAULT_FEED_WEIGHT);
+        super.feed(DEFAULT_FEED_WEIGHT, FoodType.ALL);
     }
 
     public Double valueOfCars() {
