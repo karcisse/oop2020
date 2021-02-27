@@ -1,5 +1,6 @@
 package wsb;
 
+import wsb.creatures.*;
 import wsb.devices.*;
 
 import java.util.*;
@@ -13,6 +14,23 @@ public class Main {
         Car ford = new DieselCar("Ford", "Mondeo", 2012, 2.0d);
         ford.startACar();
         ford.stopACar();
+
+        List<Animal> animals = Arrays.asList(
+                new Human(0, 0, Gender.MALE, 80),
+                new Pet("Dog", Gender.MALE, 40),
+                new FarmAnimal("Sheep", 120),
+                new Human(2, 1, Gender.FEMALE, 60),
+                new Pet("Cat", Gender.FEMALE, 20),
+                new FarmAnimal("Cow", 200)
+        );
+        System.out.println(animals);
+        animals.sort(new Comparator<Animal>() { // for the sake of exercise we do this but it pains my eyes and should be Comparator.comparing(car -> car.producer)
+            @Override
+            public int compare(Animal o1, Animal o2) {
+                return Double.compare(o1.getWeight(), o2.getWeight());
+            }
+        });
+        System.out.println(animals);
 
         Map<String, Car> modelCarMap = new HashMap<>(Stream.of(
                 new DieselCar("Ford", "Mondeo", 2012, 2.0d),

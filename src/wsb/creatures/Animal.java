@@ -20,26 +20,12 @@ public class Animal implements Feedable, Comparable<Animal> {
     private final FoodType foodType;
     File pic;
 
-    public Animal(String species, Gender gender, FoodType foodType) {
+    public Animal(String species, Gender gender, FoodType foodType, double weight) {
         System.out.println("we created new Animal");
         this.gender = gender;
         this.species = species;
         this.foodType = foodType;
-
-        switch (species) {
-            case "dog": {
-                weight = NEW_DOG_WEIGHT;
-                break;
-            }
-            case "lion": {
-                weight = NEW_LION_WEIGHT;
-                break;
-            }
-            default: {
-                weight = NEW_OTHER_ANIMAL_WEIGHT;
-                break;
-            }
-        }
+        this.weight = weight;
         try {
             this.save();
         } catch (SQLException e) {
@@ -79,7 +65,7 @@ public class Animal implements Feedable, Comparable<Animal> {
         }
     }
 
-    Double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
