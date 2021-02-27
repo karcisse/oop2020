@@ -1,21 +1,19 @@
 package wsb.devices;
 
-import com.sun.deploy.util.StringUtils;
 import wsb.Soldable;
 import wsb.creatures.Human;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 public abstract class Car extends Device implements Soldable, Comparable<Car> {
     public final Integer yearOfProduction;
-    public final Double sizeOfAnEngine;
     public String plates;
+    private Engine engine;
 
     public Car(String producer, String model, Integer yearOfProduction, Double sizeOfAnEngine) {
         super(producer, model);
         this.yearOfProduction = yearOfProduction;
-        this.sizeOfAnEngine = sizeOfAnEngine;
+        this.engine = new Engine(150d, sizeOfAnEngine, 0d);
 
     }
 
@@ -33,7 +31,15 @@ public abstract class Car extends Device implements Soldable, Comparable<Car> {
 
     @Override
     public void turnOn() {
-        System.out.println("car is ready to go");
+        startACar();
+    }
+
+    public void stopACar() {
+        engine.turnOff();
+    }
+
+    public void startACar() {
+        engine.turnOn();
     }
 
     public String toString() {
@@ -61,6 +67,30 @@ public abstract class Car extends Device implements Soldable, Comparable<Car> {
         buyer.cash -= price;
         seller.cash += price;
         System.out.println("great, transaction is done");
+    }
+
+    private static class Engine {
+
+        private Double horsePower;
+        private Double volume;
+        private Double millage;
+        private boolean isRunning;
+
+        public Engine(Double horsePower, Double volume, Double millage) {
+            this.horsePower = horsePower;
+            this.volume = volume;
+            this.millage = millage;
+        }
+
+        public void turnOn() {
+            isRunning = true;
+            System.out.println("engine goes brrrrrr");
+        }
+
+        public void turnOff() {
+            isRunning = false;
+            System.out.println("engine stops brrrr");
+        }
     }
 
 

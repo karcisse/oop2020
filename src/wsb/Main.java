@@ -10,6 +10,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Car ford = new DieselCar("Ford", "Mondeo", 2012, 2.0d);
+        ford.startACar();
+        ford.stopACar();
+
         Map<String, Car> modelCarMap = new HashMap<>(Stream.of(
                 new DieselCar("Ford", "Mondeo", 2012, 2.0d),
                 new ElectricCar("Tesla", "S", 2019),
