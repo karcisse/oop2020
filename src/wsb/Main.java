@@ -1,14 +1,8 @@
 package wsb;
 
-import wsb.devices.Car;
-import wsb.devices.Device;
-import wsb.devices.DieselCar;
-import wsb.devices.ElectricCar;
+import wsb.devices.*;
 
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,5 +47,23 @@ public class Main {
                 .min(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse(""));
+
+
+        /* <<<<<<<<<<< TASK 6 >>>>>>>>>>>>>> */
+
+        List<Device> devices = Arrays.asList(
+                new DieselCar("Ford", "Mondeo", 2012, 2d),
+                new DieselCar("Ford", "Focus", 2010, 1.5d),
+                new ElectricCar("Tesla", "S", 2020),
+                Phone.createIPhone("7", 4.7d),
+                Phone.createTrashPhone("Siemens", "XD", 2d),
+                Phone.createTrashPhone("Siemens", "XDDDDDD", 2.5d)
+        );
+
+        Map<String, List<Device>> producerDevicesMap = devices.stream().collect(
+                Collectors.groupingBy(Device::getProducer, HashMap::new, Collectors.toCollection(ArrayList::new)));
+
+        System.out.println("Devices produced by Ford :" + producerDevicesMap.get("Ford"));
+        System.out.println("Devices produced by Siemens :" + producerDevicesMap.get("Siemens"));
     }
 }

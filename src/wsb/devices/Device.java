@@ -16,4 +16,7 @@ public abstract class Device {
         return this.model;
     }
 
+    public String getProducer() {
+        return producer;
+    }
 }
