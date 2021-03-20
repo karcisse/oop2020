@@ -2,6 +2,7 @@ package wsb;
 
 import wsb.creatures.*;
 import wsb.devices.*;
+import wsb.threads.CallableSorter;
 import wsb.threads.RandomBallThrowingNumbers;
 import wsb.threads.WinnerWrapper;
 
@@ -94,24 +95,65 @@ public class Main {
         System.out.println("Devices produced by Ford :" + producerDevicesMap.get("Ford"));
         System.out.println("Devices produced by Siemens :" + producerDevicesMap.get("Siemens"));
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        Collection<Future<WinnerWrapper>> futures = executor.invokeAll(Arrays.asList(
-                new RandomBallThrowingNumbers(() -> System.out.println("Frozen in Time")),
-                new RandomBallThrowingNumbers(() -> System.out.println("Kahn-Sequences")),
-                new RandomBallThrowingNumbers(() -> System.out.println("Split Decision")),
-                new RandomBallThrowingNumbers(() -> System.out.println("Hair Today Gone Tomorrow")),
-                new RandomBallThrowingNumbers(() -> System.out.println("Pop Goes the Mortal")),
-                new RandomBallThrowingNumbers(() -> System.out.println("Rest in Pieces"))
+//        ExecutorService executor = Executors.newFixedThreadPool(4);
+//        Collection<Future<WinnerWrapper>> futures = executor.invokeAll(Arrays.asList(
+//                new RandomBallThrowingNumbers(() -> System.out.println("Frozen in Time")),
+//                new RandomBallThrowingNumbers(() -> System.out.println("Kahn-Sequences")),
+//                new RandomBallThrowingNumbers(() -> System.out.println("Split Decision")),
+//                new RandomBallThrowingNumbers(() -> System.out.println("Hair Today Gone Tomorrow")),
+//                new RandomBallThrowingNumbers(() -> System.out.println("Pop Goes the Mortal")),
+//                new RandomBallThrowingNumbers(() -> System.out.println("Rest in Pieces"))
+//        ));
+//        System.out.println("DONE, let's see who won");
+//        futures.stream().map(winnerWrapperFuture -> {
+//            try {
+//                return winnerWrapperFuture.get();
+//            } catch (InterruptedException | ExecutionException e) {
+//                throw new IllegalStateException(e);
+//            }
+//        }).max(Comparator.comparingDouble(WinnerWrapper::getScore))
+//                .ifPresent(winner -> winner.getFinisher().finishHim());
+//        executor.shutdown();
+
+        List<Integer> list1 = generateListWithRandomUniqueNumbers(500);
+        List<Integer> list2 = generateListWithRandomUniqueNumbers(1500);
+        List<Integer> list3 = generateListWithRandomUniqueNumbers(5000);
+        List<Integer> list4 = generateListWithRandomUniqueNumbers(10000);
+
+        ExecutorService singleExecutor = Executors.newSingleThreadExecutor();
+
+        Date start = new Date();
+        Collection<Future<List<Integer>>> futureNumbers = singleExecutor.invokeAll(Arrays.asList(
+                new CallableSorter(list1),
+                new CallableSorter(list2),
+                new CallableSorter(list3),
+                new CallableSorter(list4)
         ));
-        System.out.println("DONE, let's see who won");
-        futures.stream().map(winnerWrapperFuture -> {
-            try {
-                return winnerWrapperFuture.get();
-            } catch (InterruptedException | ExecutionException e) {
-                throw new IllegalStateException(e);
-            }
-        }).max(Comparator.comparingDouble(WinnerWrapper::getScore))
-                .ifPresent(winner -> winner.getFinisher().finishHim());
-        executor.shutdown();
+
+        singleExecutor.shutdown();
+        System.out.println("Single thread sorting done in " + (new Date().getTime() - start.getTime()) + " miliseconds");
+
+        ExecutorService multiExecutor = Executors.newFixedThreadPool(4);
+
+        Date start2 = new Date();
+        Collection<Future<List<Integer>>> futureNumbersSortedSameTime = multiExecutor.invokeAll(Arrays.asList(
+                new CallableSorter(list1),
+                new CallableSorter(list2),
+                new CallableSorter(list3),
+                new CallableSorter(list4)
+        ));
+
+        multiExecutor.shutdown();
+        System.out.println("Multi thread sorting done in " + (new Date().getTime() - start2.getTime()) + " miliseconds");
+
+    }
+
+    private static List<Integer> generateListWithRandomUniqueNumbers(int size) {
+        Random random = new Random();
+        Set<Integer> set = new HashSet<>();
+        while (set.size() != size) {
+            set.add(random.nextInt(Integer.MAX_VALUE));
+        }
+        return new ArrayList<>(set);
     }
 }
