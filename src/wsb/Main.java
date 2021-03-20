@@ -91,7 +91,7 @@ public class Main {
         System.out.println("Devices produced by Ford :" + producerDevicesMap.get("Ford"));
         System.out.println("Devices produced by Siemens :" + producerDevicesMap.get("Siemens"));
 
-        new Thread(new SubZero()).start();
-        new Thread(new Scorpion()).start();
+        new Thread(new Counter(() -> System.out.println("Supply Drop"))).start();
+        new Thread(new Counter(() -> System.out.println("Belly of the Beast"))).start();
     }
 }

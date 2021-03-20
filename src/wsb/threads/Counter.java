@@ -1,6 +1,13 @@
 package wsb.threads;
 
 public class Counter implements Runnable {
+
+    private final Finisher finisher;
+
+    public Counter(Finisher finisher) {
+        this.finisher = finisher;
+    }
+
     @Override
     public void run() {
         System.out.println("Counting ...");
@@ -12,6 +19,7 @@ public class Counter implements Runnable {
             }
             sleepForASecond();
         }
+        finisher.finishHim();
     }
 
     private void sleepForASecond() {
