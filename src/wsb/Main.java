@@ -3,6 +3,8 @@ package wsb;
 import wsb.creatures.*;
 import wsb.devices.*;
 import wsb.threads.Counter;
+import wsb.threads.Scorpion;
+import wsb.threads.SubZero;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,7 +91,7 @@ public class Main {
         System.out.println("Devices produced by Ford :" + producerDevicesMap.get("Ford"));
         System.out.println("Devices produced by Siemens :" + producerDevicesMap.get("Siemens"));
 
-        new Thread(new Counter()).start();
-        new Thread(new Counter()).start();
+        new Thread(new SubZero()).start();
+        new Thread(new Scorpion()).start();
     }
 }
