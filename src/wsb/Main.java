@@ -31,12 +31,7 @@ public class Main {
                 new FarmAnimal("Cow", 200)
         );
         System.out.println(animals);
-        animals.sort(new Comparator<Animal>() { // for the sake of exercise we do this but it pains my eyes and should be Comparator.comparing(car -> car.producer)
-            @Override
-            public int compare(Animal o1, Animal o2) {
-                return Double.compare(o1.getWeight(), o2.getWeight());
-            }
-        });
+        animals.sort(Comparator.comparingDouble(Animal::getWeight));
         System.out.println(animals);
 
         Map<String, Car> modelCarMap = new HashMap<>(Stream.of(
