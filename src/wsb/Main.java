@@ -2,17 +2,20 @@ package wsb;
 
 import wsb.creatures.*;
 import wsb.devices.*;
-import wsb.threads.Counter;
-import wsb.threads.Scorpion;
-import wsb.threads.SubZero;
+import wsb.threads.RandomBallThrowingNumbers;
+import wsb.threads.WinnerWrapper;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         Car ford = new DieselCar("Ford", "Mondeo", 2012, 2.0d);
         ford.startACar();
@@ -91,7 +94,24 @@ public class Main {
         System.out.println("Devices produced by Ford :" + producerDevicesMap.get("Ford"));
         System.out.println("Devices produced by Siemens :" + producerDevicesMap.get("Siemens"));
 
-        new Thread(new Counter(() -> System.out.println("Supply Drop"))).start();
-        new Thread(new Counter(() -> System.out.println("Belly of the Beast"))).start();
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        Collection<Future<WinnerWrapper>> futures = executor.invokeAll(Arrays.asList(
+                new RandomBallThrowingNumbers(() -> System.out.println("Frozen in Time")),
+                new RandomBallThrowingNumbers(() -> System.out.println("Kahn-Sequences")),
+                new RandomBallThrowingNumbers(() -> System.out.println("Split Decision")),
+                new RandomBallThrowingNumbers(() -> System.out.println("Hair Today Gone Tomorrow")),
+                new RandomBallThrowingNumbers(() -> System.out.println("Pop Goes the Mortal")),
+                new RandomBallThrowingNumbers(() -> System.out.println("Rest in Pieces"))
+        ));
+        System.out.println("DONE, let's see who won");
+        futures.stream().map(winnerWrapperFuture -> {
+            try {
+                return winnerWrapperFuture.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new IllegalStateException(e);
+            }
+        }).max(Comparator.comparingDouble(WinnerWrapper::getScore))
+                .ifPresent(winner -> winner.getFinisher().finishHim());
+        executor.shutdown();
     }
 }
