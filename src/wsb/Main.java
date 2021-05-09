@@ -3,6 +3,7 @@ package wsb;
 import wsb.creatures.*;
 import wsb.database.ObjectToSql;
 import wsb.devices.*;
+import wsb.generics.Container;
 import wsb.generics.SuperNumber;
 import wsb.threads.CallableSorter;
 
@@ -161,6 +162,19 @@ public class Main {
         System.out.println(superNumber.intEquals(superNumber3));
         System.out.println(superNumber.doubleEqual(superNumber2));
         System.out.println(superNumber.doubleEqual(superNumber3));
+
+        // TASK 16
+        Container<String> container = new Container<>();
+        container.add("asfsdfs");
+        System.out.println(container.getChanges());
+        container.clear();
+        System.out.println(container.getChanges());
+        container.add("asfsdfs");
+        container.add("asfsdfs");
+        container.add("asfsdfs");
+        container.remove("asfsdfs");
+        System.out.println(container.getChanges());
+        System.out.println(container);
     }
 
     private static List<Integer> generateListWithRandomUniqueNumbers(int size) {
