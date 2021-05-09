@@ -1,6 +1,7 @@
 package wsb;
 
 import wsb.creatures.*;
+import wsb.database.ObjectToSql;
 import wsb.devices.*;
 import wsb.threads.CallableSorter;
 import wsb.threads.RandomBallThrowingNumbers;
@@ -140,6 +141,10 @@ public class Main {
 
         multiExecutor.shutdown();
         System.out.println("Multi thread sorting done in " + (new Date().getTime() - start2.getTime()) + " miliseconds");
+
+        // TASK 12
+        ObjectToSql objectToSql = new ObjectToSql();
+        System.out.println(objectToSql.insert(ford));
 
     }
 
