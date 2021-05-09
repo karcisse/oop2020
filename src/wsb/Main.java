@@ -3,9 +3,8 @@ package wsb;
 import wsb.creatures.*;
 import wsb.database.ObjectToSql;
 import wsb.devices.*;
+import wsb.generics.SuperNumber;
 import wsb.threads.CallableSorter;
-import wsb.threads.RandomBallThrowingNumbers;
-import wsb.threads.WinnerWrapper;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -148,6 +147,20 @@ public class Main {
         ElectricCar electricCar = new ElectricCar("Tesla", "S", 2020);
         System.out.println(objectToSql.insert(electricCar));
 
+        // TASK 15
+
+        SuperNumber<Double> superNumber = new SuperNumber<>(7.5);
+        SuperNumber<Double> superNumber2 = new SuperNumber<>(7.0);
+        SuperNumber<Double> superNumber3 = new SuperNumber<>(7.5);
+
+        System.out.println(superNumber.getAsDouble());
+        System.out.println(superNumber.getAsInt());
+        System.out.println(superNumber.isDoubleEqualInt());
+        System.out.println(superNumber2.isDoubleEqualInt());
+        System.out.println(superNumber.intEquals(superNumber2));
+        System.out.println(superNumber.intEquals(superNumber3));
+        System.out.println(superNumber.doubleEqual(superNumber2));
+        System.out.println(superNumber.doubleEqual(superNumber3));
     }
 
     private static List<Integer> generateListWithRandomUniqueNumbers(int size) {
