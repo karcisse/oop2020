@@ -10,6 +10,10 @@ public class ObjectToSql {
     private static final String DELIMITER = ", ";
 
     public String insert(Object objectToInsert) {
+        if (!objectToInsert.getClass().isAnnotationPresent(MappedClass.class)) {
+            return "";
+        }
+
         String className = objectToInsert.getClass().getSimpleName().toLowerCase();
 
         return String.format(INSERT_QUERY,

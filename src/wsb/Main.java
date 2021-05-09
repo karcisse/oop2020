@@ -142,9 +142,11 @@ public class Main {
         multiExecutor.shutdown();
         System.out.println("Multi thread sorting done in " + (new Date().getTime() - start2.getTime()) + " miliseconds");
 
-        // TASK 12 & 13
+        // TASK 12 & 13 & 14
         ObjectToSql objectToSql = new ObjectToSql();
         System.out.println(objectToSql.insert(ford));
+        ElectricCar electricCar = new ElectricCar("Tesla", "S", 2020);
+        System.out.println(objectToSql.insert(electricCar));
 
     }
 
