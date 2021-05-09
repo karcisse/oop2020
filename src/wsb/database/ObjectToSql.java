@@ -1,7 +1,6 @@
 package wsb.database;
 
 import java.lang.reflect.Field;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,13 +19,13 @@ public class ObjectToSql {
     }
 
     private String getColumns(Object object) {
-        return getStreamOfAllClassFields(object)
+        return getStreamOfMappedClassFields(object)
                 .map(Field::getName)
                 .collect(Collectors.joining(DELIMITER));
     }
 
     private String getValues(Object object) {
-        return getStreamOfAllClassFields(object)
+        return getStreamOfMappedClassFields(object)
                 .map(field -> {
                     try {
                         field.setAccessible(true);
@@ -40,7 +39,7 @@ public class ObjectToSql {
                 .collect(Collectors.joining(DELIMITER));
     }
 
-    private Stream<Field> getStreamOfAllClassFields(Object obj) {
+    private Stream<Field> getStreamOfMappedClassFields(Object obj) {
         Stream<Field> fields = Stream.of(obj.getClass().getDeclaredFields());
 
         Class<?> clazz = obj.getClass().getSuperclass();
@@ -48,6 +47,6 @@ public class ObjectToSql {
             fields = Stream.concat(fields, Stream.of(clazz.getDeclaredFields()));
             clazz = clazz.getSuperclass();
         }
-        return fields;
+        return fields.filter(field -> field.isAnnotationPresent(MappedToSql.class));
     }
 }

@@ -1,7 +1,11 @@
 package wsb.devices;
 
+import wsb.database.MappedToSql;
+
 public abstract class Device {
+        @MappedToSql
         final public String producer;
+        @MappedToSql
         final public String model;
         public Double value;
 

@@ -2,11 +2,14 @@ package wsb.devices;
 
 import wsb.Soldable;
 import wsb.creatures.Human;
+import wsb.database.MappedToSql;
 
 import java.security.SecureRandom;
 
 public abstract class Car extends Device implements Soldable, Comparable<Car> {
+    @MappedToSql
     public final Integer yearOfProduction;
+    @MappedToSql
     public String plates;
     private Engine engine;
 
