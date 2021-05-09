@@ -4,6 +4,7 @@ import wsb.creatures.*;
 import wsb.database.ObjectToSql;
 import wsb.devices.*;
 import wsb.generics.Container;
+import wsb.generics.ContainerWithMemory;
 import wsb.generics.SuperNumber;
 import wsb.threads.CallableSorter;
 
@@ -164,16 +165,16 @@ public class Main {
         System.out.println(superNumber.doubleEqual(superNumber3));
 
         // TASK 16
-        Container<String> container = new Container<>();
-        container.add("asfsdfs");
-        System.out.println(container.getChanges());
+        ContainerWithMemory<String> container = new ContainerWithMemory<>();
+        container.add("asfsdfs1");
+        container.add("asfsdfs2");
+        container.add("asfsdfs3");
+        container.add("asfsdfs4");
+        System.out.println(container);
         container.clear();
-        System.out.println(container.getChanges());
-        container.add("asfsdfs");
-        container.add("asfsdfs");
-        container.add("asfsdfs");
-        container.remove("asfsdfs");
-        System.out.println(container.getChanges());
+        container.printAll();
+        System.out.println(container);
+        container.backToVersion(2);
         System.out.println(container);
     }
 
